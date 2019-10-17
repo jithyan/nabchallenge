@@ -1,0 +1,1 @@
+mongoimport --jsonArray --db NAB --collection cryptoPrices --file cryptoprices.json
