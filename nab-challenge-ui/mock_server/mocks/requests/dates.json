@@ -1,0 +1,18 @@
+{
+  "name": "Available dates for a currency",
+  "isArray": false,
+  "expression": "nabchallenge/v1/available-dates/ETH",
+  "method": "GET",
+  "responses": {
+    "success": {
+      "status": 200,
+      "file": "./mocks/responses/dates-res.json",
+      "headers": {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
+      "default": true,
+      "delay": 1000
+    }
+  }
+}

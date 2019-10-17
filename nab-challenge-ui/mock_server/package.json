@@ -1,0 +1,12 @@
+{
+  "name": "mock_server",
+  "version": "1.0.0",
+  "description": "Mocks the API for UI development",
+  "main": "mockServer.js",
+  "author": "Jithya Nanayakkara",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ng-apimock": "^1.4.9"
+  }
+}
