@@ -1,5 +1,5 @@
-import axios from 'axios';
+import axios from "axios";
 
-const baseURL = "localhost:4000/mocking/";
+const baseURL = "http://localhost:4000/mocking/nabchallenge/v1";
 
-export default axios.create({baseURL});
+export default axios.create({ baseURL });

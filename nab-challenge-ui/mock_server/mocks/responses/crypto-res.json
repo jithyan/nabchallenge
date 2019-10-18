@@ -1,4 +1,4 @@
 {
-  "totalRecords": 3,
-  "currencies": ["LTC", "BTC", "ETC"]
+  "recordCount": 3,
+  "records": ["LTC", "BTC", "ETH"]
 }

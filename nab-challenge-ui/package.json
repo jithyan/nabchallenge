@@ -11,6 +11,7 @@
     "@types/react-datepicker": "^2.9.3",
     "@types/react-dom": "16.9.2",
     "axios": "^0.19.0",
+    "cors": "^2.8.5",
     "moment": "^2.24.0",
     "react": "^16.10.2",
     "react-datepicker": "^2.9.6",
@@ -24,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:mock": "cd mock_server && node mockServer.js"
   },
   "eslintConfig": {
     "extends": "react-app"
