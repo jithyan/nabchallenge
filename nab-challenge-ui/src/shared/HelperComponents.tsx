@@ -12,11 +12,12 @@ export const Loader: React.FC<LoaderProp> = ({ text = "Loading" }) => {
   );
 };
 
-export const ErrorMessage: React.FC<{ msg: string; onClose: () => void }> = ({
-  msg,
-  onClose
-}) => {
-  return (
+export const ErrorMessage: React.FC<{
+  msg: string;
+  onClose: () => void;
+  open: boolean;
+}> = ({ msg, onClose, open }) => {
+  return !open ? null : (
     <div className="ui negative message">
       <i className="close icon" onClick={onClose}></i>
       <div className="header">{msg}</div>

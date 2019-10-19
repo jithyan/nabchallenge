@@ -1,7 +1,8 @@
-/// <reference types="react-vis-types" />
 import React from "react";
 
-import {
+import "react-vis/dist/style.css";
+
+const {
   HorizontalGridLines,
   VerticalGridLines,
   XAxis,
@@ -9,8 +10,7 @@ import {
   YAxis,
   MarkSeries,
   LineSeries
-} from "react-vis";
-import "react-vis/dist/style.css";
+} = require("react-vis");
 
 export type DataPoints = { x: number; y: number };
 
@@ -23,24 +23,28 @@ interface PriceGraphProps {
   yDomain?: number[];
 }
 
-const PriceGraph: React.FC<PriceGraphProps> = ({
-  data,
-  width,
-  height,
-  title
-}) => {
-  return (
-    <>
-      <h2 className="centered">{title}</h2>
-      <XYPlot width={width} height={height} xDomain={[0, 6]} yDomain={[10, 20]}>
-        <XAxis />
-        <YAxis />
-        <HorizontalGridLines />
-        <VerticalGridLines />
-        <LineSeries data={data} />
-      </XYPlot>
-    </>
-  );
-};
+const PriceGraph: React.FC<PriceGraphProps> = React.memo(
+  ({ data, width, height, title }) => {
+    return (
+      <>
+        <h2 className="centered">{title}</h2>
+        <XYPlot width="800" height="400">
+          <XAxis
+            title="Time (24 hr)"
+            tickFormat={function tickFormat(unixTime: number) {
+              const time = new Date(unixTime);
+              console.log(time.toTimeString());
+              return `${time.getHours()}-${time.getMinutes()}`;
+            }}
+          />
+          <YAxis title="Price (AUD)" />
+          <HorizontalGridLines />
+          <VerticalGridLines />
+          <LineSeries data={data} />
+        </XYPlot>
+      </>
+    );
+  }
+);
 
 export default PriceGraph;

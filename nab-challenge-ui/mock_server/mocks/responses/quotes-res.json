@@ -1,15 +1,65 @@
 {
   "recordCount": 10,
   "records": [
-    { "unixTimestamp": 10200, "timeFormatted": "12:20", "price": 33.45 },
-    { "unixTimestamp": 10300, "timeFormatted": "12:30", "price": 34.45 },
-    { "unixTimestamp": 10400, "timeFormatted": "12:40", "price": 35.45 },
-    { "unixTimestamp": 10500, "timeFormatted": "12:50", "price": 36.45 },
-    { "unixTimestamp": 10600, "timeFormatted": "13:10", "price": 34.65 },
-    { "unixTimestamp": 10700, "timeFormatted": "13:20", "price": 32.55 },
-    { "unixTimestamp": 10800, "timeFormatted": "13:30", "price": 37.0 },
-    { "unixTimestamp": 10900, "timeFormatted": "13:40", "price": 38.45 },
-    { "unixTimestamp": 11100, "timeFormatted": "14:20", "price": 39.45 },
-    { "unixTimestamp": 11200, "timeFormatted": "14:30", "price": 40.55 }
+    {
+      "priceFormatted": "33.45",
+      "unixTimestamp": 10200,
+      "time": "12:20",
+      "price": 33.45
+    },
+    {
+      "priceFormatted": "34.45",
+      "unixTimestamp": 10300,
+      "time": "12:30",
+      "price": 34.45
+    },
+    {
+      "priceFormatted": "35.45",
+      "unixTimestamp": 10400,
+      "time": "12:40",
+      "price": 35.45
+    },
+    {
+      "priceFormatted": "36.45",
+      "unixTimestamp": 10500,
+      "time": "12:50",
+      "price": 36.45
+    },
+    {
+      "priceFormatted": "34.65",
+      "unixTimestamp": 10600,
+      "time": "13:10",
+      "price": 34.65
+    },
+    {
+      "priceFormatted": "32.55",
+      "unixTimestamp": 10700,
+      "time": "13:20",
+      "price": 32.55
+    },
+    {
+      "priceFormatted": "37.0",
+      "unixTimestamp": 10800,
+      "time": "13:30",
+      "price": 37.0
+    },
+    {
+      "priceFormatted": "38.45",
+      "unixTimestamp": 10900,
+      "time": "13:40",
+      "price": 38.45
+    },
+    {
+      "priceFormatted": "39.45",
+      "unixTimestamp": 11100,
+      "time": "14:20",
+      "price": 39.45
+    },
+    {
+      "priceFormatted": "40.55",
+      "unixTimestamp": 11200,
+      "time": "14:30",
+      "price": 40.55
+    }
   ]
 }
