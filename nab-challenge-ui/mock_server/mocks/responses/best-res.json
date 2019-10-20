@@ -1,12 +1,12 @@
 {
   "dateFormatted": "Tue, 10 Dec 2018",
   "buy": {
-    "price": "$32.55",
-    "time": "13:20"
+    "priceFormatted": "$32.55",
+    "timeFormatted": "13:20"
   },
   "sell": {
-    "price": "$40.55",
-    "time": "14:30"
+    "priceFormatted": "$40.55",
+    "timeFormatted": "14:30"
   },
   "profit": "$8.00"
 }

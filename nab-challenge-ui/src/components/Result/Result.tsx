@@ -20,8 +20,8 @@ const Result: React.FC<ResultProps> = ({ currencyName, dateAsEpoch }) => {
   const [graphData, setGraphData] = useState<DataPoints[]>([] as DataPoints[]);
   const [profitData, setProfitData] = useState<BestProfitResponse>({
     dateFormatted: "",
-    buy: { price: "", time: "" },
-    sell: { price: "", time: "" },
+    buy: { priceFormatted: "", timeFormatted: "" },
+    sell: { priceFormatted: "", timeFormatted: "" },
     profit: ""
   });
 
@@ -78,10 +78,10 @@ const Result: React.FC<ResultProps> = ({ currencyName, dateAsEpoch }) => {
                 profit={profitData.profit}
                 date={profitData.dateFormatted}
                 currencyName={currencyName}
-                buyPrice={profitData.buy.price}
-                sellPrice={profitData.sell.price}
-                buyTime={profitData.buy.time}
-                sellTime={profitData.sell.time}
+                buyPrice={profitData.buy.priceFormatted}
+                sellPrice={profitData.sell.priceFormatted}
+                buyTime={profitData.buy.timeFormatted}
+                sellTime={profitData.sell.timeFormatted}
               />
             </div>
           </div>

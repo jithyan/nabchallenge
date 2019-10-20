@@ -3,7 +3,7 @@ export interface ApiMultiRecordResponse<T> {
   records: T[];
 }
 
-type PurchaseInfo = { price: string; time: string };
+type PurchaseInfo = { priceFormatted: string; timeFormatted: string };
 export interface BestProfitResponse {
   dateFormatted: string;
   buy: PurchaseInfo;
