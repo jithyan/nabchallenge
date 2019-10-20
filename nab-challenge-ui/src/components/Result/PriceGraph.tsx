@@ -8,7 +8,6 @@ const {
   XAxis,
   XYPlot,
   YAxis,
-  MarkSeries,
   LineSeries
 } = require("react-vis");
 

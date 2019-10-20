@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import BestProfitDisplay, { BestProfitDisplayProps } from "./BestProfitDisplay";
+import BestProfitDisplay from "./BestProfitDisplay";
 import PriceGraph, { DataPoints } from "./PriceGraph";
 
 import api from "../../shared/api/api";
@@ -49,7 +49,7 @@ const Result: React.FC<ResultProps> = ({ currencyName, dateAsEpoch }) => {
       .catch(error => {
         setShowError(true);
       });
-  }, []);
+  }, [currencyName, dateAsEpoch]);
 
   const dataLoaded = graphData.length !== 0 && profitData.dateFormatted !== "";
 
