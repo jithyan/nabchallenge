@@ -10,7 +10,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.jithyan.nabchallengebff.data.CryptoPricesDAO;
-import com.jithyan.nabchallengebff.data.QuoteDAO;
 import com.jithyan.nabchallengebff.model.BestProfit;
 import com.jithyan.nabchallengebff.model.CryptoPrices;
 import com.jithyan.nabchallengebff.model.Quote;
@@ -18,16 +17,15 @@ import com.jithyan.nabchallengebff.model.Quote;
 @Service
 @CacheConfig(cacheNames = { "crypto" })
 public class CryptoCurrencyService {
-   private final QuoteDAO quoteDAO;
    private final CryptoPricesDAO cryptoPricesDAO;
 
    @Autowired
-   public CryptoCurrencyService(QuoteDAO quoteDAO, CryptoPricesDAO cryptoPricesDAO) {
-      this.quoteDAO = quoteDAO;
+   public CryptoCurrencyService(CryptoPricesDAO cryptoPricesDAO) {
       this.cryptoPricesDAO = cryptoPricesDAO;
    }
 
 
+   @Cacheable
    public List<String> getAllUniqueCryptoCurrencyNames() {
       return cryptoPricesDAO.findAll().stream()
             .unordered()
@@ -40,6 +38,7 @@ public class CryptoCurrencyService {
 
    @Cacheable
    public List<Long> getAllUniqueDatesForGivenCryptoCurrency(String currencyName) {
+
       return currencyName == null
             ? Collections.emptyList()
             : cryptoPricesDAO.findByCurrencyName(currencyName).stream()
@@ -52,19 +51,31 @@ public class CryptoCurrencyService {
 
 
    public List<Quote> getAllQuotesForCurrency(String currencyName) {
-      return null;
+      return currencyName == null
+            ? Collections.emptyList()
+            : cryptoPricesDAO.findByCurrencyName(currencyName).stream()
+                  .unordered()
+                  .flatMap(cp -> cp.getQuotes().stream())
+                  .sorted((x, y) -> Long.compare(x.getTime(), y.getTime()))
+                  .collect(Collectors.toList());
    }
 
 
    @Cacheable
    public List<Quote> getAllQuotesForCurrency(String currencyName, long epochDate) {
-      return null;
+      return currencyName == null
+            ? Collections.emptyList()
+            : cryptoPricesDAO.findByCurrencyAndDateSortedAscByTime(currencyName, epochDate)
+                  .getQuotes();
    }
 
 
    @Cacheable
    public BestProfit calculateBestProfitForCurrencyGivenDate(String currencyName, long epochDate) {
-      return null;
+      return cryptoPricesDAO
+            .findByCurrencyAndDateSortedAscByTime(currencyName, epochDate)
+            .getBestProfit()
+            .get();
    }
 
 

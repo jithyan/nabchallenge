@@ -13,4 +13,8 @@ public interface CryptoPricesDAO extends MongoRepository<CryptoPrices, ObjectId>
    @Query(value = "{'currency': ?0}")
    public List<CryptoPrices> findByCurrencyName(String currencyName);
 
+
+   @Query(value = "{'currency': ?0, 'date': ?1}", sort = "{'quotes.time': 1}")
+   public CryptoPrices findByCurrencyAndDateSortedAscByTime(String currency, long epochDate);
+
 }

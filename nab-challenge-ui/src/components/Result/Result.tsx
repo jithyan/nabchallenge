@@ -67,7 +67,7 @@ const Result: React.FC<ResultProps> = ({ currencyName, dateAsEpoch }) => {
               <PriceGraph
                 title={`Price Fluctuation for ${currencyName} on ${profitData.dateFormatted}`}
                 data={graphData}
-                width={900}
+                width={1100}
                 height={400}
               />
             </div>
