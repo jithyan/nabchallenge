@@ -28,16 +28,24 @@ const PriceGraph: React.FC<PriceGraphProps> = React.memo(
     return (
       <>
         <h2 className="centered">{title}</h2>
-        <XYPlot width="800" height="400">
+        <XYPlot width={width} height={height}>
           <XAxis
             title="Time (24 hr)"
+            tickTotal={12}
             tickFormat={function tickFormat(unixTime: number) {
               const time = new Date(unixTime);
-              console.log(time.toTimeString());
-              return `${time.getHours()}-${time.getMinutes()}`;
+              const hours = time
+                .getHours()
+                .toString()
+                .padStart(2, "0");
+              const mins = time
+                .getMinutes()
+                .toString()
+                .padStart(2, "0");
+              return `${hours}-${mins}`;
             }}
           />
-          <YAxis title="Price (AUD)" />
+          <YAxis title="Price (AUD)" tickTotal={8} />
           <HorizontalGridLines />
           <VerticalGridLines />
           <LineSeries data={data} />

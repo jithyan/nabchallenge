@@ -2,63 +2,43 @@
   "recordCount": 10,
   "records": [
     {
-      "priceFormatted": "33.45",
-      "unixTimestamp": 10200,
-      "time": "12:20",
+      "time": 1544400000000,
       "price": 33.45
     },
     {
-      "priceFormatted": "34.45",
-      "unixTimestamp": 10300,
-      "time": "12:30",
+      "time": 1544400060000,
       "price": 34.45
     },
     {
-      "priceFormatted": "35.45",
-      "unixTimestamp": 10400,
-      "time": "12:40",
+      "time": 1544400120000,
       "price": 35.45
     },
     {
-      "priceFormatted": "36.45",
-      "unixTimestamp": 10500,
-      "time": "12:50",
+      "time": 1544400180000,
       "price": 36.45
     },
     {
-      "priceFormatted": "34.65",
-      "unixTimestamp": 10600,
-      "time": "13:10",
+      "time": 1544400240000,
       "price": 34.65
     },
     {
-      "priceFormatted": "32.55",
-      "unixTimestamp": 10700,
-      "time": "13:20",
+      "time": 1544400300000,
       "price": 32.55
     },
     {
-      "priceFormatted": "37.0",
-      "unixTimestamp": 10800,
-      "time": "13:30",
+      "time": 1544400360000,
       "price": 37.0
     },
     {
-      "priceFormatted": "38.45",
-      "unixTimestamp": 10900,
-      "time": "13:40",
+      "time": 1544400420000,
       "price": 38.45
     },
     {
-      "priceFormatted": "39.45",
-      "unixTimestamp": 11100,
-      "time": "14:20",
+      "time": 1544400480000,
       "price": 39.45
     },
     {
-      "priceFormatted": "40.55",
-      "unixTimestamp": 11200,
-      "time": "14:30",
+      "time": 1544400540000,
       "price": 40.55
     }
   ]

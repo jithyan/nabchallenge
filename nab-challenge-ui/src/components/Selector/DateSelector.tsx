@@ -20,8 +20,6 @@ const DateSelector: React.FC<DateSelector> = React.memo(
         onChange={onDateSelected}
         includeDates={dates}
         placeholderText="Select a date"
-        locale="en-AU"
-        showMonthYearDropdown
         dateFormatCalendar={"yyyy-MMM-dd"}
       />
     );

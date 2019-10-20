@@ -1,7 +1,7 @@
 {
   "name": "Price and Timestamp for a currency and date",
   "isArray": false,
-  "expression": "nabchallenge/v1/crypto-price/ETH\\?date=2018-12-10",
+  "expression": "nabchallenge/v1/crypto-price/ETH\\?date=1544400000000",
   "method": "GET",
   "responses": {
     "success": {

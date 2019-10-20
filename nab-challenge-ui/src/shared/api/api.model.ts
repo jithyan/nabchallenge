@@ -12,8 +12,6 @@ export interface BestProfitResponse {
 }
 
 export type Quote = {
-  priceFormatted: string;
-  unixTimestamp: number;
-  time: string;
+  time: number;
   price: number;
 };

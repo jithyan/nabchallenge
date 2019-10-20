@@ -6,9 +6,11 @@ import CurrencySelector from "./CurrencySelector";
 import { ErrorMessage } from "../../shared/HelperComponents";
 import { ApiMultiRecordResponse } from "../../shared/api/api.model";
 
-export const Selector: React.FC<{
-  onSelection: (selectedCurrency: string, selectedDate: string) => void;
-}> = ({ onSelection }) => {
+interface SelectorProps {
+  onSelection: (selectedCurrency: string, selectedDateAsEpoch: number) => void;
+}
+
+export const Selector: React.FC<SelectorProps> = ({ onSelection }) => {
   const [currencyNames, setCurrencyNames] = useState<string[]>([] as string[]);
   const [showError, setShowError] = useState(false);
 
@@ -32,7 +34,7 @@ export const Selector: React.FC<{
       api
         .get(`/available-dates/${selectedCurrency}`)
         .then(response => {
-          const json: ApiMultiRecordResponse<string> = response.data;
+          const json: ApiMultiRecordResponse<number> = response.data;
           const dates = json.records.map(date => new Date(date));
           setDates(dates);
           setSelectedDate(dates[0]);
@@ -72,16 +74,7 @@ export const Selector: React.FC<{
       )}
       {selectedCurrency !== "" && selectedDate && (
         <button
-          onClick={() =>
-            onSelection(
-              selectedCurrency,
-              selectedDate
-                .toLocaleDateString("en-AU")
-                .split("/")
-                .reverse()
-                .join("-")
-            )
-          }
+          onClick={() => onSelection(selectedCurrency, selectedDate.getTime())}
           className="ui positive button"
         >
           Go

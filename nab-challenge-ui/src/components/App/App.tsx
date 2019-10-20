@@ -7,7 +7,7 @@ import { ResultProps } from "../Result/Result";
 const App: React.FC = () => {
   const [selectedValues, setSelectedValues] = useState<ResultProps>({
     currencyName: "",
-    date: ""
+    dateAsEpoch: 0
   });
 
   const showResult = selectedValues.currencyName !== "";
@@ -26,10 +26,10 @@ const App: React.FC = () => {
         <Result {...selectedValues} />
       ) : (
         <Selector
-          onSelection={(selectedCurrency, selectedDate) => {
+          onSelection={(selectedCurrency, selectedDateAsEpoch) => {
             setSelectedValues({
               currencyName: selectedCurrency,
-              date: selectedDate
+              dateAsEpoch: selectedDateAsEpoch
             });
           }}
         />

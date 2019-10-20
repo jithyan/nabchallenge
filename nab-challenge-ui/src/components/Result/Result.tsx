@@ -11,24 +11,12 @@ import {
 } from "../../shared/api/api.model";
 import { Loader, ErrorMessage } from "../../shared/HelperComponents";
 
-const props: any = {
-  data: [
-    { x: 0, y: 12.3 },
-    { x: 1, y: 10.2 },
-    { x: 2, y: 13.3 },
-    { x: 3, y: 11.5 },
-    { x: 4, y: 14 },
-    { x: 5, y: 11.9 }
-  ],
-  title: "Currency Price Fluctuation"
-};
-
 export interface ResultProps {
   currencyName: string;
-  date: string;
+  dateAsEpoch: number;
 }
 
-const Result: React.FC<ResultProps> = ({ currencyName, date }) => {
+const Result: React.FC<ResultProps> = ({ currencyName, dateAsEpoch }) => {
   const [graphData, setGraphData] = useState<DataPoints[]>([] as DataPoints[]);
   const [profitData, setProfitData] = useState<BestProfitResponse>({
     dateFormatted: "",
@@ -41,11 +29,11 @@ const Result: React.FC<ResultProps> = ({ currencyName, date }) => {
 
   useEffect(() => {
     api
-      .get(`/crypto-price/${currencyName}?date=${date}`)
+      .get(`/crypto-price/${currencyName}?date=${dateAsEpoch}`)
       .then(response => {
         const json: ApiMultiRecordResponse<Quote> = response.data;
         const dataPoints: DataPoints[] = json.records.map(q => {
-          return { x: q.unixTimestamp, y: q.price };
+          return { x: q.time, y: q.price };
         });
         setGraphData(dataPoints);
       })
@@ -54,7 +42,7 @@ const Result: React.FC<ResultProps> = ({ currencyName, date }) => {
       });
 
     api
-      .get(`/best-profit/${currencyName}/${date}`)
+      .get(`/best-profit/${currencyName}/${dateAsEpoch}`)
       .then(response => {
         setProfitData(response.data as BestProfitResponse);
       })
@@ -77,9 +65,10 @@ const Result: React.FC<ResultProps> = ({ currencyName, date }) => {
           <div className="row">
             <div className="column">
               <PriceGraph
-                {...props}
+                title={`Price Fluctuation for ${currencyName} on ${profitData.dateFormatted}`}
                 data={graphData}
-                style={{ display: "flex", justifyContent: "center" }}
+                width={900}
+                height={400}
               />
             </div>
           </div>

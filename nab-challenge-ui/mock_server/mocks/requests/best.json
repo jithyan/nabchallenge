@@ -1,7 +1,7 @@
 {
   "name": "Best Profit for a currency on a day",
   "isArray": false,
-  "expression": "nabchallenge/v1/best-profit/ETH/2018-12-10",
+  "expression": "nabchallenge/v1/best-profit/ETH/1544400000000",
   "method": "GET",
   "responses": {
     "success": {
