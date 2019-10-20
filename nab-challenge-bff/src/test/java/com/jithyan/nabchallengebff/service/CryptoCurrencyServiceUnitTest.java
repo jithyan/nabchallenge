@@ -99,15 +99,7 @@ public class CryptoCurrencyServiceUnitTest {
                .id(new ObjectId())
                .build();
 
-         CryptoPrices cp2 = CryptoPrices.builder()
-               .currency("ETC")
-               .date(expectedEpochDates.get(i % numDates) + i * 1000L)
-               .quotes(new ArrayList<Quote>())
-               .id(new ObjectId())
-               .build();
-
          cryptoPriceDbData.add(cp);
-         cryptoPriceDbData.add(cp2);
       }
 
       when(cryptoPricesDAO.findByCurrencyName(givenCurrency)).thenReturn(cryptoPriceDbData);

@@ -1,5 +1,6 @@
 package com.jithyan.nabchallengebff.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,6 @@ public class CryptoCurrencyService {
 
 
    public List<String> getAllUniqueCryptoCurrencyNames() {
-
       return cryptoPricesDAO.findAll().stream()
             .unordered()
             .map(CryptoPrices::getCurrency)
@@ -40,7 +40,14 @@ public class CryptoCurrencyService {
 
    @Cacheable
    public List<Long> getAllUniqueDatesForGivenCryptoCurrency(String currencyName) {
-      return null;
+      return currencyName == null
+            ? Collections.emptyList()
+            : cryptoPricesDAO.findByCurrencyName(currencyName).stream()
+                  .unordered()
+                  .map(CryptoPrices::getDate)
+                  .distinct()
+                  .sorted()
+                  .collect(Collectors.toList());
    }
 
 
