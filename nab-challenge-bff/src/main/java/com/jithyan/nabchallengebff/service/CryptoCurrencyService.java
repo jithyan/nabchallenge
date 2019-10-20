@@ -1,5 +1,6 @@
 package com.jithyan.nabchallengebff.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class CryptoCurrencyService {
 
 
    public List<String> getAllUniqueCryptoCurrencyNames() {
-      return null;
+      cryptoPricesDAO.findAll();
+      return Collections.emptyList();
    }
 
 
