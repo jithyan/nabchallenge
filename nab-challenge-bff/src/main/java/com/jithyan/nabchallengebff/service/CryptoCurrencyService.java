@@ -1,7 +1,7 @@
 package com.jithyan.nabchallengebff.service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.jithyan.nabchallengebff.data.CryptoPricesDAO;
 import com.jithyan.nabchallengebff.data.QuoteDAO;
 import com.jithyan.nabchallengebff.model.BestProfit;
+import com.jithyan.nabchallengebff.model.CryptoPrices;
 import com.jithyan.nabchallengebff.model.Quote;
 
 @Service
@@ -27,8 +28,12 @@ public class CryptoCurrencyService {
 
 
    public List<String> getAllUniqueCryptoCurrencyNames() {
-      cryptoPricesDAO.findAll();
-      return Collections.emptyList();
+      return cryptoPricesDAO.findAll().stream()
+            .unordered()
+            .map(CryptoPrices::getCurrency)
+            .distinct()
+            .sorted()
+            .collect(Collectors.toList());
    }
 
 

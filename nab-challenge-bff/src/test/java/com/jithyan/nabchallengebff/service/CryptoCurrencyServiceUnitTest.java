@@ -6,9 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Assertions;
@@ -26,6 +24,9 @@ import com.jithyan.nabchallengebff.model.Quote;
 @ExtendWith(MockitoExtension.class)
 public class CryptoCurrencyServiceUnitTest {
    private List<String> bitCoinNames = Arrays.asList("LTC", "BTC", "DOGE", "ETC");
+   {
+      Collections.sort(bitCoinNames);
+   }
 
    private CryptoCurrencyService service;
    @Mock
@@ -35,11 +36,8 @@ public class CryptoCurrencyServiceUnitTest {
 
 
    @Test
-   @DisplayName("getAllUniqueCryptoCurrencyNames() returns a list of unique names")
-   public void getAllUniqueCryptoCurrencyNamesReturnsListOfUniqueNames() {
-      Set<String> expectedCurrencyNames = new HashSet<>();
-      Collections.addAll(expectedCurrencyNames, (String[]) bitCoinNames.toArray());
-
+   @DisplayName("getAllUniqueCryptoCurrencyNames() returns a list of unique names in ascending order")
+   public void getAllUniqueCryptoCurrencyNamesReturnsListOfAscendingOrderedUniqueNames() {
       List<CryptoPrices> dbData = new ArrayList<>();
       int numNames = bitCoinNames.size();
       for (int i = 0; i < 100; i++) {
@@ -55,8 +53,8 @@ public class CryptoCurrencyServiceUnitTest {
       when(cryptoPricesDAO.findAll()).thenReturn(dbData);
       this.service = new CryptoCurrencyService(quoteDAO, cryptoPricesDAO);
 
-      Set<String> actualCurrencyNames = new HashSet<>(service.getAllUniqueCryptoCurrencyNames());
-      Assertions.assertEquals(expectedCurrencyNames, actualCurrencyNames);
+      List<String> actualCurrencyNames = service.getAllUniqueCryptoCurrencyNames();
+      Assertions.assertEquals(bitCoinNames, actualCurrencyNames);
    }
 
 
@@ -70,4 +68,5 @@ public class CryptoCurrencyServiceUnitTest {
       List<String> actualCurrencyNames = service.getAllUniqueCryptoCurrencyNames();
       Assertions.assertEquals(0, actualCurrencyNames.size());
    }
+
 }
