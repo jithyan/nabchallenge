@@ -28,6 +28,7 @@ public class CryptoCurrencyService {
 
 
    public List<String> getAllUniqueCryptoCurrencyNames() {
+
       return cryptoPricesDAO.findAll().stream()
             .unordered()
             .map(CryptoPrices::getCurrency)
@@ -38,7 +39,7 @@ public class CryptoCurrencyService {
 
 
    @Cacheable
-   public List<String> getAllUniqueDatesForGivenCryptoCurrency(String currencyName) {
+   public List<Long> getAllUniqueDatesForGivenCryptoCurrency(String currencyName) {
       return null;
    }
 
