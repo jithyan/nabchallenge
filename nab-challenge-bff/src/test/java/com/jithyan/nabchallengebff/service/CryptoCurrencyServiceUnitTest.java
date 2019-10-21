@@ -164,6 +164,143 @@ public class CryptoCurrencyServiceUnitTest {
    }
 
 
+   @Test
+   @DisplayName("calculateBestProfitForCurrencyGivenDate(date) returns No Profit for empty quotes list")
+   public void calculateBestProfitForCurrencyGivenDateReturnsNoProfitForEmptyQuotes() {
+      String givenCurrency = "LTC";
+      long givenDate = LocalDate.parse(unsortedDates.get(0)).toEpochDay();
+
+      CryptoPrices cp = CryptoPrices.builder()
+            .currency("LTC")
+            .date(LocalDate.parse(unsortedDates.get(0)).toEpochDay())
+            .quotes(new ArrayList<Quote>())
+            .id(new ObjectId())
+            .build();
+
+      when(cryptoPricesDAO.findByCurrencyAndDateSortedAscByTime(givenCurrency, givenDate))
+            .thenReturn(cp);
+      service = new CryptoCurrencyService(cryptoPricesDAO);
+
+      String expectedProfit = "Can only sell at a loss today";
+      String actualProfit = service
+            .calculateBestProfitForCurrencyGivenDate(givenCurrency, givenDate).getProfit();
+
+      Assertions.assertEquals(expectedProfit, actualProfit);
+
+   }
+
+
+   @Test
+   @DisplayName("calculateBestProfitForCurrencyGivenDate(date) returns No Profit when the prices for the day only fall")
+   public void calculateBestProfitForCurrencyGivenDateReturnsNoProfitForQuotePricesDescending() {
+      String givenCurrency = "LTC";
+      long givenDate = LocalDate.parse(unsortedDates.get(0)).toEpochDay();
+
+      List<BigDecimal> descendingPrices = Arrays.asList(new BigDecimal(10), new BigDecimal(9),
+            new BigDecimal(7), new BigDecimal(0));
+      List<Quote> quotes = new ArrayList<>();
+
+      long time = 1000L;
+      int i = 1;
+      for (BigDecimal price : descendingPrices) {
+         quotes.add(new Quote(price, time * i));
+         i++;
+      }
+
+      CryptoPrices cp = CryptoPrices.builder()
+            .currency("LTC")
+            .date(LocalDate.parse(unsortedDates.get(0)).toEpochDay())
+            .quotes(quotes)
+            .id(new ObjectId())
+            .build();
+
+      when(cryptoPricesDAO.findByCurrencyAndDateSortedAscByTime(givenCurrency, givenDate))
+            .thenReturn(cp);
+      service = new CryptoCurrencyService(cryptoPricesDAO);
+
+      String expectedProfit = "Can only sell at a loss today";
+      String actualProfit = service
+            .calculateBestProfitForCurrencyGivenDate(givenCurrency, givenDate).getProfit();
+
+      Assertions.assertEquals(expectedProfit, actualProfit);
+
+   }
+
+
+   @Test
+   @DisplayName("calculateBestProfitForCurrencyGivenDate(date) returns 0.00 profit when the prices are stagnant")
+   public void calculateBestProfitForCurrencyGivenDateReturnsZeroProfitForQuotePricesEqual() {
+      String givenCurrency = "LTC";
+      long givenDate = LocalDate.parse(unsortedDates.get(0)).toEpochDay();
+
+      List<BigDecimal> descendingPrices = Arrays.asList(new BigDecimal(10), new BigDecimal(10),
+            new BigDecimal(10), new BigDecimal(10));
+      List<Quote> quotes = new ArrayList<>();
+
+      long time = 1000L;
+      int i = 1;
+      for (BigDecimal price : descendingPrices) {
+         quotes.add(new Quote(price, time * i));
+         i++;
+      }
+
+      CryptoPrices cp = CryptoPrices.builder()
+            .currency("LTC")
+            .date(LocalDate.parse(unsortedDates.get(0)).toEpochDay())
+            .quotes(quotes)
+            .id(new ObjectId())
+            .build();
+
+      when(cryptoPricesDAO.findByCurrencyAndDateSortedAscByTime(givenCurrency, givenDate))
+            .thenReturn(cp);
+      service = new CryptoCurrencyService(cryptoPricesDAO);
+
+      String expectedProfit = "0.00";
+      String actualProfit = service
+            .calculateBestProfitForCurrencyGivenDate(givenCurrency, givenDate).getProfit();
+
+      Assertions.assertEquals(expectedProfit, actualProfit);
+   }
+
+
+   @Test
+   @DisplayName("calculateBestProfitForCurrencyGivenDate(date) returns the correct profit when the best buy price is not the minium quote price")
+   public void calculateBestProfitForCurrencyGivenDateReturnsCorrectProfitForWhenBestBuyPriceIsNotTheMinimum() {
+      String givenCurrency = "LTC";
+      long givenDate = LocalDate.parse(unsortedDates.get(0)).toEpochDay();
+
+      List<BigDecimal> descendingPrices = Arrays.asList(new BigDecimal(20), new BigDecimal(25),
+            new BigDecimal(10), new BigDecimal(40), new BigDecimal(41), new BigDecimal(30),
+            new BigDecimal(31), new BigDecimal(3), new BigDecimal(7), new BigDecimal(32));
+      List<Quote> quotes = new ArrayList<>();
+
+      long time = 1000L;
+      int i = 1;
+      for (BigDecimal price : descendingPrices) {
+         quotes.add(new Quote(price, time * i));
+         i++;
+      }
+      System.out.println(quotes);
+
+      CryptoPrices cp = CryptoPrices.builder()
+            .currency("LTC")
+            .date(LocalDate.parse(unsortedDates.get(0)).toEpochDay())
+            .quotes(quotes)
+            .id(new ObjectId())
+            .build();
+
+      when(cryptoPricesDAO.findByCurrencyAndDateSortedAscByTime(givenCurrency, givenDate))
+            .thenReturn(cp);
+      service = new CryptoCurrencyService(cryptoPricesDAO);
+
+      String expectedProfit = "31.00";
+      String actualProfit = service
+            .calculateBestProfitForCurrencyGivenDate(givenCurrency, givenDate).getProfit();
+
+      Assertions.assertEquals(expectedProfit, actualProfit);
+   }
+
+
    private List<Quote> generateRandomQuotesOrderedByTime() {
       return unsortedTimes.stream()
             .unordered()
