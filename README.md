@@ -1,6 +1,6 @@
 # NAB Coding Challenge
 
-Find the best profit possible in a single day given historical crypto currency price data.
+Find the best possible profit in a single day given historical crypto currency price data.
 
 ## Comprises of 3 projects
 
@@ -14,4 +14,4 @@ Find the best profit possible in a single day given historical crypto currency p
 - There will always be quotes for a currency and no dirty data.
 - Didn't implement pagination.
 - Skipped integration testing for the BFF and any component testing for UI due to time constraints.
-- Didn't implement any standard exception handling for BFF.
+- Didn't implement any standardized exception handling for the BFF.
