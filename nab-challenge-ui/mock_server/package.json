@@ -5,6 +5,9 @@
   "main": "mockServer.js",
   "author": "Jithya Nanayakkara",
   "license": "MIT",
+  "scripts": {
+    "start": "node mockServer.js"
+  },
   "dependencies": {
     "express": "^4.17.1",
     "ng-apimock": "^1.4.9"

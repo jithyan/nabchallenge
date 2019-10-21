@@ -1,10 +1,7 @@
 package com.jithyan.nabchallengebff.model;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Supplier;
@@ -15,6 +12,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jithyan.nabchallengebff.constants.Constants;
 
 import lombok.Builder;
 import lombok.Data;
@@ -30,9 +28,20 @@ public class CryptoPrices {
    private final List<Quote> quotes;
    @JsonIgnore
    @BsonIgnore
+   /**
+    * Lazily calculates the best profit possible for this currency on this day.
+    */
    private final Supplier<BestProfit> bestProfit = calculateBestProfit();
 
 
+   /**
+    * Finds the best time to buy and sell given a list of Quotes sorted by time (ascending)
+    * for a currency.
+    * Based on the algorithm from the site below, which solves it linearly:
+    * http://p-nand-q.com/python/algorithms/searching/max-profit.html
+    * 
+    * @return The profit, buy and sell details of the best profit calculation
+    */
    private Supplier<BestProfit> calculateBestProfit() {
       return () -> {
          Quote lastMin = null;
@@ -47,7 +56,9 @@ public class CryptoPrices {
                min = curr;
                lastMin = curr;
             } else if (currPrice.compareTo(min.getPrice()) < 0) {
-               lastMin = min;
+               lastMin = max != null && Long.compare(min.getTime(), max.getTime()) > 0
+                     ? lastMin
+                     : min;
                min = curr;
             } else if (max == null) {
                max = curr;
@@ -70,40 +81,30 @@ public class CryptoPrices {
    private BestProfit buildBestProfitFromResult(Quote min, Quote max) {
       String dateFormatted = LocalDateTime
             .ofEpochSecond(date / 1000L, 0,
-                  ZoneId.of(ZoneOffset.systemDefault().getId()).getRules()
-                        .getOffset(Instant.now()))
+                  Constants.CURRENT_ZONE_ID)
             .format(DateTimeFormatter.ofPattern("dd-MMM-uuuu"));
 
-      // If max == null, edge case where prices have only gone down
-      String profitRounded = max == null
-            ? "Can only sell at a loss today"
-            : max.getPrice().subtract(min.getPrice())
-                  .setScale(2, BigDecimal.ROUND_HALF_UP)
-                  .toPlainString();
+      // Edge case where prices have only gone down
+      if (max == null) {
+         return BestProfit.noBestProfit(dateFormatted);
+      }
+      String profitRounded = max.getPrice().subtract(min.getPrice())
+            .setScale(2, BigDecimal.ROUND_HALF_UP)
+            .toPlainString();
 
-      String sellPriceFormatted = max == null
-            ? ""
-            : max.getPrice()
-                  .setScale(2, BigDecimal.ROUND_HALF_UP)
-                  .toPlainString();
-      String sellTimeFormatted = max == null
-            ? "Don't Sell"
-            : LocalDateTime.ofEpochSecond(max.getTime() / 1000L, 0,
-                  ZoneId.of(ZoneOffset.systemDefault().getId()).getRules()
-                        .getOffset(Instant.now()))
-                  .format(DateTimeFormatter.ISO_TIME);
+      String sellPriceFormatted = max.getPrice()
+            .setScale(2, BigDecimal.ROUND_HALF_UP)
+            .toPlainString();
+      String sellTimeFormatted = LocalDateTime.ofEpochSecond(max.getTime() / 1000L, 0,
+            Constants.CURRENT_ZONE_ID)
+            .format(DateTimeFormatter.ISO_TIME);
 
-      String buyPriceFormatted = max == null
-            ? ""
-            : min.getPrice()
-                  .setScale(2, BigDecimal.ROUND_HALF_UP)
-                  .toPlainString();
-      String buyTimeFormatted = max == null
-            ? "Don't Buy"
-            : LocalDateTime.ofEpochSecond(min.getTime() / 1000L, 0,
-                  ZoneId.of(ZoneOffset.systemDefault().getId()).getRules()
-                        .getOffset(Instant.now()))
-                  .format(DateTimeFormatter.ISO_TIME);
+      String buyPriceFormatted = min.getPrice()
+            .setScale(2, BigDecimal.ROUND_HALF_UP)
+            .toPlainString();
+      String buyTimeFormatted = LocalDateTime.ofEpochSecond(min.getTime() / 1000L, 0,
+            Constants.CURRENT_ZONE_ID)
+            .format(DateTimeFormatter.ISO_TIME);
 
       return BestProfit.builder()
             .dateFormatted(dateFormatted)

@@ -270,8 +270,8 @@ public class CryptoCurrencyServiceUnitTest {
       long givenDate = LocalDate.parse(unsortedDates.get(0)).toEpochDay();
 
       List<BigDecimal> descendingPrices = Arrays.asList(new BigDecimal(20), new BigDecimal(25),
-            new BigDecimal(10), new BigDecimal(40), new BigDecimal(41), new BigDecimal(30),
-            new BigDecimal(31), new BigDecimal(3), new BigDecimal(7), new BigDecimal(32));
+            new BigDecimal(10), new BigDecimal(41), new BigDecimal(7), new BigDecimal(35),
+            new BigDecimal(5), new BigDecimal(35), new BigDecimal(3), new BigDecimal(32));
       List<Quote> quotes = new ArrayList<>();
 
       long time = 1000L;
@@ -280,7 +280,6 @@ public class CryptoCurrencyServiceUnitTest {
          quotes.add(new Quote(price, time * i));
          i++;
       }
-      System.out.println(quotes);
 
       CryptoPrices cp = CryptoPrices.builder()
             .currency("LTC")

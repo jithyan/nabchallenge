@@ -1,5 +1,7 @@
 package com.jithyan.nabchallengebff.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +11,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.jithyan.nabchallengebff.constants.Constants;
 import com.jithyan.nabchallengebff.data.CryptoPricesDAO;
 import com.jithyan.nabchallengebff.model.BestProfit;
 import com.jithyan.nabchallengebff.model.CryptoPrices;
@@ -25,6 +28,8 @@ public class CryptoCurrencyService {
    }
 
 
+   //Extremely slow implementation, ideally should do all the processing
+   //in the DB, but I'm not too familiar performing MongoDB queries in Java.
    @Cacheable
    public List<String> getAllUniqueCryptoCurrencyNames() {
       return cryptoPricesDAO.findAll().stream()
@@ -38,7 +43,6 @@ public class CryptoCurrencyService {
 
    @Cacheable
    public List<Long> getAllUniqueDatesForGivenCryptoCurrency(String currencyName) {
-
       return currencyName == null
             ? Collections.emptyList()
             : cryptoPricesDAO.findByCurrencyName(currencyName).stream()
@@ -72,10 +76,15 @@ public class CryptoCurrencyService {
 
    @Cacheable
    public BestProfit calculateBestProfitForCurrencyGivenDate(String currencyName, long epochDate) {
-      return cryptoPricesDAO
-            .findByCurrencyAndDateSortedAscByTime(currencyName, epochDate)
-            .getBestProfit()
-            .get();
+      CryptoPrices retrievedCryptoPrices = cryptoPricesDAO
+            .findByCurrencyAndDateSortedAscByTime(currencyName, epochDate);
+
+      return retrievedCryptoPrices == null
+            ? BestProfit.noBestProfit(LocalDateTime
+                  .ofEpochSecond(epochDate / 1000L, 0,
+                        Constants.CURRENT_ZONE_ID)
+                  .format(DateTimeFormatter.ofPattern("dd-MMM-uuuu")))
+            : retrievedCryptoPrices.getBestProfit().get();
    }
 
 

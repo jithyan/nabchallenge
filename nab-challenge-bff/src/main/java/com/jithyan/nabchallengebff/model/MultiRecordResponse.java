@@ -6,6 +6,13 @@ import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+/**
+ * A wrapper for when a response to the UI comprises of a list of records.
+ * 
+ * @author Jithya
+ *
+ * @param <T> Any class seriablizable to JSON
+ */
 @Getter
 @EqualsAndHashCode
 public class MultiRecordResponse<T> {
