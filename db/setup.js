@@ -33,4 +33,4 @@ db.createCollection("cryptoPrices", {
   }
 });
 
-db.cryptoPrices.createIndex({ currency: 1, date: -1 });
+db.cryptoPrices.createIndex({ currency: 1, date: -1, "quotes.time": 1 });

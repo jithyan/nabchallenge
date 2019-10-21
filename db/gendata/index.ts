@@ -17,13 +17,15 @@ type Quote = { time: number; price: number };
 type Doc = { currency: string; date: number; quotes: Quote[] };
 
 function gen_quotes(date: Date): Quote[] {
-  const basePrice = Math.random() * 300;
+  const basePrice = Math.random() * 100 + 10;
   const quotes: Quote[] = [];
   const dayInMins = 60 * 24;
   var time = date.getTime();
 
   for (var i = 0; i < dayInMins; i++) {
-    const price = parseFloat((basePrice + Math.random() * 30).toFixed(2));
+    const price = parseFloat(
+      (basePrice + Math.random() * 30 - Math.random() * 10).toFixed(2)
+    );
     quotes.push({
       time,
       price
